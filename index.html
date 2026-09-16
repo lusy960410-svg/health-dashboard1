@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>个人健康数据看板</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><div><h1>个人健康数据看板</h1><p>WHOOP · Apple Watch · Garmin · 华为 · 小米 · CSV</p></div>
+<button id="importBtn">导入 CSV</button><input id="fileInput" type="file" accept=".csv" hidden></header>
+<main>
+<section class="hero"><div><span>今日状态</span><h2 id="status">等待数据</h2><p id="summary">先导入 CSV；WHOOP OAuth 接入将在下一阶段配置。</p></div><div class="date" id="today"></div></section>
+<section class="grid">
+<article><span>Recovery</span><strong id="recovery">—</strong><small>恢复</small></article>
+<article><span>Sleep</span><strong id="sleep">—</strong><small>睡眠时长</small></article>
+<article><span>HRV</span><strong id="hrv">—</strong><small>心率变异性</small></article>
+<article><span>RHR</span><strong id="rhr">—</strong><small>静息心率</small></article>
+<article><span>Strain</span><strong id="strain">—</strong><small>今日负荷</small></article>
+<article><span>Steps</span><strong id="steps">—</strong><small>步数</small></article>
+</section>
+<section class="panel"><h3>近 7 天</h3><div id="table"></div></section>
+<section class="panel"><h3>数据源</h3><div class="sources"><div>● WHOOP <b>OAuth 待连接</b></div><div>● Apple Health <b>待导入</b></div><div>● Garmin <b>待导入</b></div><div>● 华为 / 小米 <b>CSV 可导入</b></div></div></section>
+</main>
+<footer>本地优先 · 不把个人健康数据写入前端代码</footer>
+<script src="app.js"></script>
+</body></html>
