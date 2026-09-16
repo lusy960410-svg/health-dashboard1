@@ -2,6 +2,33 @@ const $=id=>document.getElementById(id);
 $("today").textContent=new Intl.DateTimeFormat("zh-CN",{dateStyle:"medium"}).format(new Date());
 $("importBtn").onclick=()=>$("fileInput").click();
 $("fileInput").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>parseCSV(r.result);r.readAsText(f)};
+const WHOOP_API_URL="https://script.google.com/macros/s/AKfycbxIwLZDBT70r9vZzuL5GF4YdqjmbzWp4g_Pmv-FYVrWGkZPN-ArtLuNvG0xYQh0wFw4-Q/exec";
+
+function loadWhoopData(){
+  const s=document.createElement("script");
+  s.src=WHOOP_API_URL+"?api=dashboard&callback=receiveWhoopData&_="+Date.now();
+  document.body.appendChild(s);
+}
+
+function receiveWhoopData(data){
+  const r=data.recovery?.records?.[0]?.score||{};
+  const c=data.cycles?.records?.[0]?.score||{};
+  const sl=data.sleep?.records?.[0]?.score||{};
+  
+  $("recovery").textContent=r.recovery_score??"—";
+  $("hrv").textContent=r.hrv_rmssd_milli?Math.round(r.hrv_rmssd_milli):"—";
+  $("rhr").textContent=r.resting_heart_rate??"—";
+  $("strain").textContent=c.strain??"—";
+  
+  if(sl.stage_summary?.total_in_bed_time_milli){
+    $("sleep").textContent=(sl.stage_summary.total_in_bed_time_milli/3600000).toFixed(1)+" h";
+  }
+  
+  $("status").textContent="WHOOP 数据已同步";
+  $("summary").textContent="已读取 WHOOP 最新数据";
+}
+
+loadWhoopData();
 function parseCSV(text){
  const rows=text.trim().split(/\r?\n/).map(x=>x.split(",").map(v=>v.trim().replace(/^"|"$/g,"")));
  if(rows.length<2)return;
